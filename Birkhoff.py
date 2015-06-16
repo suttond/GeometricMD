@@ -122,7 +122,7 @@ def add_node_to_job_pool(node_number, local_number_of_nodes, dimension, mass_mat
 
 if __name__ == '__main__':
 
-    config_filename = sys.argv[1].split('.', 1)[0]
+    config_filename = sys.argv[1]
 
     f = open('conf/' + config_filename, 'r')
 
@@ -132,7 +132,7 @@ if __name__ == '__main__':
 
         if command == 'st':
             molecule = ase.io.read(value.strip())
-            molecule.set_calculator(define_physics())
+            molecule = define_physics(molecule)
             start_point = convert_atoms_to_vector(molecule.get_positions())
             dimension = len(start_point)
             mass_matrix = np.diag(np.dstack((molecule.get_masses(),) * (dimension /
