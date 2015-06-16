@@ -59,6 +59,8 @@ target/
 # GMFMD Configuration Files
 conf/*.xyz
 conf/*.bkhf
+out/*.xyz
+out/*.pkl
 
 # Packages that may be inluded locally
 pysic/
