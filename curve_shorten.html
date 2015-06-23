@@ -8,8 +8,8 @@
     
     <title>Curve Shorten Module &mdash; GeometricMD 1.0 documentation</title>
     
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
@@ -20,9 +20,9 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
     <link rel="top" title="GeometricMD 1.0 documentation" href="index.html" />
     <link rel="next" title="Geometry Module" href="Geometry.html" />
     <link rel="prev" title="Animation Module" href="Animation.html" />
@@ -60,7 +60,7 @@
 <span id="curve-shorten-module"></span><h1>Curve Shorten Module<a class="headerlink" href="#module-geometricmd.curve_shorten" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="geometricmd.curve_shorten.compute_trajectory">
-<code class="descclassname">geometricmd.curve_shorten.</code><code class="descname">compute_trajectory</code><span class="sig-paren">(</span><em>trajectory</em>, <em>local_num_nodes</em>, <em>energy</em>, <em>tol</em>, <em>filename</em>, <em>configuration</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/geometricmd/curve_shorten.html#compute_trajectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geometricmd.curve_shorten.compute_trajectory" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">geometricmd.curve_shorten.</code><code class="descname">compute_trajectory</code><span class="sig-paren">(</span><em>trajectory</em>, <em>local_num_nodes</em>, <em>energy</em>, <em>tol</em>, <em>filename</em>, <em>configuration</em><span class="sig-paren">)</span><a class="reference internal" href="modules/geometricmd/curve_shorten.html#compute_trajectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geometricmd.curve_shorten.compute_trajectory" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function creates a new task to compute a geodesic midpoint and submits it to the worker pool.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -82,7 +82,7 @@
 
 <dl class="function">
 <dt id="geometricmd.curve_shorten.find_geodesic_midpoint">
-<code class="descclassname">geometricmd.curve_shorten.</code><code class="descname">find_geodesic_midpoint</code><span class="sig-paren">(</span><em>start_point</em>, <em>end_point</em>, <em>number_of_inner_points</em>, <em>dimension</em>, <em>mass_matrix</em>, <em>molecule</em>, <em>energy</em>, <em>node_number</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/geometricmd/curve_shorten.html#find_geodesic_midpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geometricmd.curve_shorten.find_geodesic_midpoint" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">geometricmd.curve_shorten.</code><code class="descname">find_geodesic_midpoint</code><span class="sig-paren">(</span><em>start_point</em>, <em>end_point</em>, <em>number_of_inner_points</em>, <em>dimension</em>, <em>mass_matrix</em>, <em>molecule</em>, <em>energy</em>, <em>node_number</em><span class="sig-paren">)</span><a class="reference internal" href="modules/geometricmd/curve_shorten.html#find_geodesic_midpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geometricmd.curve_shorten.find_geodesic_midpoint" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function computes the local geodesic curve joining start_point to end_point using the L-BFGS method.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -112,7 +112,7 @@
 
 <dl class="function">
 <dt id="geometricmd.curve_shorten.length">
-<code class="descclassname">geometricmd.curve_shorten.</code><code class="descname">length</code><span class="sig-paren">(</span><em>x</em>, <em>start_point</em>, <em>end_point</em>, <em>number_of_inner_nodes</em>, <em>mass_matrix</em>, <em>dimension</em>, <em>molecule</em>, <em>energy</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/geometricmd/curve_shorten.html#length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geometricmd.curve_shorten.length" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">geometricmd.curve_shorten.</code><code class="descname">length</code><span class="sig-paren">(</span><em>x</em>, <em>start_point</em>, <em>end_point</em>, <em>number_of_inner_nodes</em>, <em>mass_matrix</em>, <em>dimension</em>, <em>molecule</em>, <em>energy</em><span class="sig-paren">)</span><a class="reference internal" href="modules/geometricmd/curve_shorten.html#length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geometricmd.curve_shorten.length" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function computes an approximation of the length functional for local geodesics. It also provides the
 gradient of this approximation.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -175,7 +175,7 @@ gradient of this approximation.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/Curve_Shorten.txt"
+      <li><a href="sources/Curve_Shorten.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -204,7 +204,7 @@ gradient of this approximation.</p>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
       
       |
-      <a href="_sources/Curve_Shorten.txt"
+      <a href="sources/Curve_Shorten.txt"
           rel="nofollow">Page source</a></li>
     </div>
 
