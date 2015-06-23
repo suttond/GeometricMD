@@ -55,7 +55,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="convert_atoms_to_vector"><a class="viewcode-back" href="../../Geometry.html#geometricmd.geometry.convert_atoms_to_vector">[docs]</a><span class="k">def</span> <span class="nf">convert_atoms_to_vector</span><span class="p">(</span><span class="n">atoms</span><span class="p">):</span>
+<div class="viewcode-block" id="convert_atoms_to_vector"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.convert_atoms_to_vector">[docs]</a><span class="k">def</span> <span class="nf">convert_atoms_to_vector</span><span class="p">(</span><span class="n">atoms</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Converts an Atomistic Simulation Environment atoms object into a vector which can be used with the curve</span>
 <span class="sd">    shortening algorithm.</span>
 
@@ -78,7 +78,7 @@
     <span class="k">return</span> <span class="n">vector</span>
 
 </div>
-<div class="viewcode-block" id="convert_vector_to_atoms"><a class="viewcode-back" href="../../Geometry.html#geometricmd.geometry.convert_vector_to_atoms">[docs]</a><span class="k">def</span> <span class="nf">convert_vector_to_atoms</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="convert_vector_to_atoms"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.convert_vector_to_atoms">[docs]</a><span class="k">def</span> <span class="nf">convert_vector_to_atoms</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; The inverse of convert_atoms_to_vector.</span>
 
 <span class="sd">    Args:</span>
@@ -92,7 +92,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float64&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span><span class="o">/</span><span class="n">dimension</span><span class="p">,</span> <span class="n">dimension</span><span class="p">))</span>
 
 </div>
-<div class="viewcode-block" id="Curve"><a class="viewcode-back" href="../../Geometry.html#geometricmd.geometry.Curve">[docs]</a><span class="k">class</span> <span class="nc">Curve</span><span class="p">:</span>
+<div class="viewcode-block" id="Curve"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.Curve">[docs]</a><span class="k">class</span> <span class="nc">Curve</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="sd">    The purpose of this object is to provide a Curve object that has similar behaviour to that described in [Sutton2013]_.</span>
@@ -112,7 +112,7 @@
 <span class="sd">      configuration (dict): A dictionary containing the information from the configuration file.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-<div class="viewcode-block" id="Curve.__init__"><a class="viewcode-back" href="../../Geometry.html#geometricmd.geometry.Curve.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_point</span><span class="p">,</span> <span class="n">end_point</span><span class="p">,</span> <span class="n">number_of_nodes</span><span class="p">,</span> <span class="n">energy</span><span class="p">):</span>
+<div class="viewcode-block" id="Curve.__init__"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.Curve.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_point</span><span class="p">,</span> <span class="n">end_point</span><span class="p">,</span> <span class="n">number_of_nodes</span><span class="p">,</span> <span class="n">energy</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The constructor for the Curve class.</span>
 
 <span class="sd">        Note:</span>
@@ -161,7 +161,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s">&#39;molecule&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_point</span>
 </div>
-<div class="viewcode-block" id="Curve.set_node_movable"><a class="viewcode-back" href="../../Geometry.html#geometricmd.geometry.Curve.set_node_movable">[docs]</a>    <span class="k">def</span> <span class="nf">set_node_movable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Curve.set_node_movable"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.Curve.set_node_movable">[docs]</a>    <span class="k">def</span> <span class="nf">set_node_movable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Resets all of the flags in the curve to indicate that the current iteration of the Birkhoff algorithm is over.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -178,7 +178,7 @@
         <span class="c"># Reset the count indicating the total number of distinct nodes that have been moved back to zero</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">number_of_distinct_nodes_moved</span> <span class="o">=</span> <span class="mi">0</span>
 </div>
-<div class="viewcode-block" id="Curve.set_node_position"><a class="viewcode-back" href="../../Geometry.html#geometricmd.geometry.Curve.set_node_position">[docs]</a>    <span class="k">def</span> <span class="nf">set_node_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_number</span><span class="p">,</span> <span class="n">new_position</span><span class="p">):</span>
+<div class="viewcode-block" id="Curve.set_node_position"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.Curve.set_node_position">[docs]</a>    <span class="k">def</span> <span class="nf">set_node_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_number</span><span class="p">,</span> <span class="n">new_position</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Update the position of the node at node_number to new_position. This processes the logic for releasing</span>
 <span class="sd">        neighbouring nodes for further computation.</span>
 
@@ -211,7 +211,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">nodes_moved</span><span class="p">[</span><span class="n">node_number</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">number_of_distinct_nodes_moved</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes_moved</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Curve.next"><a class="viewcode-back" href="../../Geometry.html#geometricmd.geometry.Curve.next">[docs]</a>    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Curve.next"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.Curve.next">[docs]</a>    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Determine next movable node, given existing information about previously distributed nodes. Used to ensure</span>
 <span class="sd">            the curve object is Python iterable..</span>
 
@@ -252,7 +252,7 @@
             <span class="c"># Raise a StopIteration</span>
             <span class="k">raise</span> <span class="ne">StopIteration</span>
 </div>
-<div class="viewcode-block" id="Curve.get_points"><a class="viewcode-back" href="../../Geometry.html#geometricmd.geometry.Curve.get_points">[docs]</a>    <span class="k">def</span> <span class="nf">get_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Curve.get_points"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.Curve.get_points">[docs]</a>    <span class="k">def</span> <span class="nf">get_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Accessor method for the points attribute.</span>
 
 <span class="sd">        Returns:</span>
@@ -261,7 +261,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span>
 </div>
-<div class="viewcode-block" id="Curve.all_nodes_moved"><a class="viewcode-back" href="../../Geometry.html#geometricmd.geometry.Curve.all_nodes_moved">[docs]</a>    <span class="k">def</span> <span class="nf">all_nodes_moved</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Curve.all_nodes_moved"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.Curve.all_nodes_moved">[docs]</a>    <span class="k">def</span> <span class="nf">all_nodes_moved</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This method determines whether every node in the global curve has been tested for length reduction.</span>
 
 <span class="sd">        Returns:</span>
@@ -273,7 +273,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">False</span>
 </div>
-<div class="viewcode-block" id="Curve.__iter__"><a class="viewcode-back" href="../../Geometry.html#geometricmd.geometry.Curve.__iter__">[docs]</a>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Curve.__iter__"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.Curve.__iter__">[docs]</a>    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; This special method ensures a curve object is iterable.</span>
 
 <span class="sd">        Returns:</span>
