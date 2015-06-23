@@ -1,10 +1,9 @@
-Physics Module
-===============
+Animation Module
+================
 
-.. automodule:: Physics
+.. automodule:: geometricmd.animation
     :members:
     :special-members:
-
 
 References
 ----------

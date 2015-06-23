@@ -1,10 +1,9 @@
-Birkhoff Module
-===============
+Curve Shorten Module
+====================
 
-.. automodule:: Birkhoff
+.. automodule:: geometricmd.curve_shorten
     :members:
     :special-members:
-
 
 References
 ----------

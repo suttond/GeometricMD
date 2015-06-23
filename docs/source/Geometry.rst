@@ -1,10 +1,9 @@
 Geometry Module
 ===============
 
-.. automodule:: Geometry
+.. automodule:: geometricmd.geometry
     :members:
     :special-members:
-
 
 References
 ----------
