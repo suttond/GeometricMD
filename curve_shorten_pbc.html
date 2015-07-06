@@ -48,11 +48,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="module-geometricmd.curve_shorten">
-<span id="curve-shorten-module"></span><h1>Curve Shorten Module<a class="headerlink" href="#module-geometricmd.curve_shorten" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-geometricmd.curve_shorten_pbc">
+<span id="curve-shorten-module"></span><h1>Curve Shorten Module<a class="headerlink" href="#module-geometricmd.curve_shorten_pbc" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
-<dt id="geometricmd.curve_shorten.compute_trajectory">
-<code class="descclassname">geometricmd.curve_shorten.</code><code class="descname">compute_trajectory</code><span class="sig-paren">(</span><em>trajectory</em>, <em>local_num_nodes</em>, <em>energy</em>, <em>tol</em>, <em>filename</em>, <em>configuration</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/geometricmd/curve_shorten.html#compute_trajectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geometricmd.curve_shorten.compute_trajectory" title="Permalink to this definition">¶</a></dt>
+<dt id="geometricmd.curve_shorten_pbc.compute_trajectory">
+<code class="descclassname">geometricmd.curve_shorten_pbc.</code><code class="descname">compute_trajectory</code><span class="sig-paren">(</span><em>trajectory</em>, <em>local_num_nodes</em>, <em>energy</em>, <em>pressure</em>, <em>W</em>, <em>tol</em>, <em>filename</em>, <em>configuration</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/geometricmd/curve_shorten_pbc.html#compute_trajectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geometricmd.curve_shorten_pbc.compute_trajectory" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function creates a new task to compute a geodesic midpoint and submits it to the worker pool.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -62,6 +62,8 @@
 <li><strong>trajectory</strong> (<em>curve</em>) &#8211; A GeometricMD curve object describing the initial trajectory between start and end configurations.</li>
 <li><strong>local_num_nodes</strong> (<em>int</em>) &#8211; The number of points to use when computing the local geodesics.</li>
 <li><strong>energy</strong> (<em>float</em>) &#8211; The total energy of the system.</li>
+<li><strong>pressure</strong> (<em>float</em>) &#8211; The pressure of the system.</li>
+<li><strong>W</strong> (<em>float</em>) &#8211; The stiffness of the unit cell.</li>
 <li><strong>tol</strong> (<em>float</em>) &#8211; The tolerance by which if the total curve movement falls below this number then the Birkhoff method stops.</li>
 <li><strong>filename</strong> (<em>str</em>) &#8211; The filename for the output files from the simulation.</li>
 <li><strong>configuration</strong> (<em>dict</em>) &#8211; A dictionary containing additional parameters for the simulation. Accepts: &#8216;processes&#8217; - the number of processors to use (defaults to 1), &#8216;write_to_log&#8217; - a boolean value, if true writes to a logfile, otherwise prints to console (defaults to False) and &#8216;save_every&#8217; - an integer indicating the program will save after every &#8216;save_every&#8217;th iteration of the Birkhoff algorithm (defaults to 1).</li>
@@ -73,8 +75,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="geometricmd.curve_shorten.find_geodesic_midpoint">
-<code class="descclassname">geometricmd.curve_shorten.</code><code class="descname">find_geodesic_midpoint</code><span class="sig-paren">(</span><em>start_point</em>, <em>end_point</em>, <em>number_of_inner_points</em>, <em>dimension</em>, <em>mass_matrix</em>, <em>molecule</em>, <em>energy</em>, <em>node_number</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/geometricmd/curve_shorten.html#find_geodesic_midpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geometricmd.curve_shorten.find_geodesic_midpoint" title="Permalink to this definition">¶</a></dt>
+<dt id="geometricmd.curve_shorten_pbc.find_geodesic_midpoint">
+<code class="descclassname">geometricmd.curve_shorten_pbc.</code><code class="descname">find_geodesic_midpoint</code><span class="sig-paren">(</span><em>start_point</em>, <em>end_point</em>, <em>start_cell</em>, <em>end_cell</em>, <em>number_of_inner_points</em>, <em>dimension</em>, <em>mass_matrix</em>, <em>molecule</em>, <em>energy</em>, <em>node_number</em>, <em>pressure</em>, <em>W</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/geometricmd/curve_shorten_pbc.html#find_geodesic_midpoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geometricmd.curve_shorten_pbc.find_geodesic_midpoint" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function computes the local geodesic curve joining start_point to end_point using the L-BFGS method.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -89,6 +91,8 @@
 <li><strong>molecule</strong> (<em>ase.atoms</em>) &#8211; The ASE atoms object corresponding to the molecule being simulated.</li>
 <li><strong>energy</strong> (<em>float</em>) &#8211; The total energy of the system.</li>
 <li><strong>node_number</strong> (<em>int</em>) &#8211; The node number for which we are calculating a new position for.</li>
+<li><strong>pressure</strong> (<em>float</em>) &#8211; The pressure of the system.</li>
+<li><strong>W</strong> (<em>float</em>) &#8211; The stiffness of the unit cell.</li>
 </ul>
 </td>
 </tr>
@@ -103,8 +107,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="geometricmd.curve_shorten.length">
-<code class="descclassname">geometricmd.curve_shorten.</code><code class="descname">length</code><span class="sig-paren">(</span><em>x</em>, <em>start_point</em>, <em>end_point</em>, <em>number_of_inner_nodes</em>, <em>mass_matrix</em>, <em>dimension</em>, <em>molecule</em>, <em>energy</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/geometricmd/curve_shorten.html#length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geometricmd.curve_shorten.length" title="Permalink to this definition">¶</a></dt>
+<dt id="geometricmd.curve_shorten_pbc.length">
+<code class="descclassname">geometricmd.curve_shorten_pbc.</code><code class="descname">length</code><span class="sig-paren">(</span><em>x</em>, <em>start_point</em>, <em>end_point</em>, <em>start_cell</em>, <em>end_cell</em>, <em>number_of_inner_nodes</em>, <em>mass_matrix</em>, <em>dimension</em>, <em>molecule</em>, <em>energy</em>, <em>pressure</em>, <em>W</em>, <em>epsilon=1e-12</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/geometricmd/curve_shorten_pbc.html#length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#geometricmd.curve_shorten_pbc.length" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function computes an approximation of the length functional for local geodesics. It also provides the
 gradient of this approximation.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -120,6 +124,9 @@ gradient of this approximation.</p>
 <li><strong>dimension</strong> (<em>int</em>) &#8211; The dimension of the problem. Computed from the atomistic simulation environment.</li>
 <li><strong>molecule</strong> (<em>ase.atoms</em>) &#8211; The ASE atoms object corresponding to the molecule being simulated.</li>
 <li><strong>energy</strong> (<em>float</em>) &#8211; The total energy of the system.</li>
+<li><strong>pressure</strong> (<em>float</em>) &#8211; The pressure of the system.</li>
+<li><strong>W</strong> (<em>float</em>) &#8211; The stiffness of the unit cell.</li>
+<li><strong>epsilon</strong> (<em>optional, float</em>) &#8211; A small number used where the metric co-efficient is zero or not defined.</li>
 </ul>
 </td>
 </tr>
@@ -161,7 +168,7 @@ gradient of this approximation.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/curve_shorten.txt"
+      <li><a href="_sources/curve_shorten_pbc.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -190,7 +197,7 @@ gradient of this approximation.</p>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.4</a>
       
       |
-      <a href="_sources/curve_shorten.txt"
+      <a href="_sources/curve_shorten_pbc.txt"
           rel="nofollow">Page source</a></li>
     </div>
 
