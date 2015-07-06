@@ -24,8 +24,10 @@ Who do I talk to?
 Package Contents
 =================
 
+Utilities
+----------
+
 .. toctree::
-   :maxdepth: 4
 
    animation
 
@@ -44,6 +46,11 @@ Periodic Systems
    curve_shorten_pbc
    geometry_pbc
 
+Tutorials
+-----------
+
+.. toctree::
+   butane_tutorial
 
 Indices and tables
 ====================
