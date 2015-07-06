@@ -26,9 +26,17 @@ Package Contents
 .. toctree::
    :maxdepth: 4
 
-   Animation
-   Curve_Shorten
-   Geometry
+   animation
+
+Aperiodic Systems
+=================
+   curve_shorten
+   geometry
+
+Periodic Systems
+================
+   curve_shorten_pbc
+   geometry_pbc
 
 
 Indices and tables

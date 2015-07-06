@@ -1,43 +1,6 @@
 # Load packages which are a part of GeometricMD
 import numpy as np
-
-
-def convert_atoms_to_vector(atoms):
-    """ Converts an Atomistic Simulation Environment atoms object into a vector which can be used with the curve
-    shortening algorithm.
-
-    Args:
-      atoms (ase.atoms): The ASE atoms object whose position is to be converted to a vector.
-
-    Returns:
-      numpy.array: A vector of atomistic positions.
-
-    """
-
-    # Create a new NumPy float array.
-    vector = np.asarray([], dtype='float64')
-
-    # For each atom in the atoms object stack it's position onto the vector object.
-    for atom in atoms:
-        vector = np.hstack((vector, np.asarray(atom, dtype='float64')))
-
-    # Return the resulting vector.
-    return vector
-
-
-def convert_vector_to_atoms(vector, dimension=3):
-    """ The inverse of convert_atoms_to_vector.
-
-    Args:
-      vector (numpy.array): The vector containing the position of the atoms to be converted.
-      dimension (optional int): The dimension of the space in which the simulation is taking place. The default value is 3.
-
-    Returns:
-      numpy.array: An ASE atoms object friendly NumPy array containing the atomistic positions.
-
-    """
-    return np.asarray(vector, dtype='float64').reshape((len(vector)/dimension, dimension))
-
+from geometry import convert_atoms_to_vector, convert_vector_to_atoms
 
 class Curve:
     """
@@ -57,6 +20,7 @@ class Curve:
       node_movable (numpy.array): A binary NumPy array indicating whether a node is movable.
       number_of_distinct_nodes_moved (int): A counter recording the total number of nodes that have moved.
       configuration (dict): A dictionary containing the information from the configuration file.
+      cells (list): A list of NumPy arrays describing the unit cell in each configuration.
 
     """
     def __init__(self, start_point, end_point, number_of_nodes, energy):

@@ -44,6 +44,9 @@ def length(x, start_point, end_point, start_cell, end_cell, number_of_inner_node
       dimension (int): The dimension of the problem. Computed from the atomistic simulation environment.
       molecule (ase.atoms): The ASE atoms object corresponding to the molecule being simulated.
       energy (float): The total energy of the system.
+      pressure (float): The pressure of the system.
+      W (float): The stiffness of the unit cell.
+      epsilon (optional, float): A small number used where the metric co-efficient is zero or not defined.
 
     Returns:
       float, numpy.array: The approximate length of the curve and the corresponding gradient.
@@ -144,6 +147,8 @@ def find_geodesic_midpoint(start_point, end_point, start_cell, end_cell, number_
       molecule (ase.atoms): The ASE atoms object corresponding to the molecule being simulated.
       energy (float): The total energy of the system.
       node_number (int): The node number for which we are calculating a new position for.
+      pressure (float): The pressure of the system.
+      W (float): The stiffness of the unit cell.
 
     Returns:
       numpy.array: The midpoint along the approximate local geodesic curve.
@@ -191,6 +196,8 @@ def compute_trajectory(trajectory, local_num_nodes, energy, pressure, W, tol, fi
       trajectory (curve): A GeometricMD curve object describing the initial trajectory between start and end configurations.
       local_num_nodes (int): The number of points to use when computing the local geodesics.
       energy (float): The total energy of the system.
+      pressure (float): The pressure of the system.
+      W (float): The stiffness of the unit cell.
       tol (float): The tolerance by which if the total curve movement falls below this number then the Birkhoff method stops.
       filename (str): The filename for the output files from the simulation.
       configuration (dict): A dictionary containing additional parameters for the simulation. Accepts: 'processes' - the number of processors to use (defaults to 1), 'write_to_log' - a boolean value, if true writes to a logfile, otherwise prints to console (defaults to False) and 'save_every' - an integer indicating the program will save after every 'save_every'th iteration of the Birkhoff algorithm (defaults to 1).
