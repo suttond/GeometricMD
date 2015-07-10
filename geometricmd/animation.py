@@ -75,8 +75,7 @@ def write_xyz_animation(curve_pickle, filename):
         # Produce a snapshot XYZ file of the configuration at that point in time
         write('current_state.xyz',
               molecule,
-              format='xyz',
-              comment='T=' + str(times[i]) + '\tPotential Energy: ' + str(molecule.get_potential_energy()))
+              format='xyz')
 
         # Increase index
         i += 1

@@ -61,6 +61,8 @@ conf/*.xyz
 conf/*.bkhf
 out/*.xyz
 out/*.pkl
+example/Butane.xyz
+example/Butane.pkl
 
 # Packages that may be inluded locally
 pysic/
