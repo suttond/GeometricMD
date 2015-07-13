@@ -111,7 +111,7 @@ class Curve:
 
         # Arithmetic to measure the total movement of a curve
         self.movement += float(1/float(self.number_of_nodes)) * \
-            np.linalg.norm(np.subtract(new_position, self.points[node_number]))
+            np.linalg.norm(np.subtract(new_position, self.points[node_number]), ord=np.inf)
 
         # Update position of node with new position assumes new_position is float64 numpy array
         self.points[node_number] = new_position
