@@ -136,7 +136,7 @@ def get_rotation(start_point, end_point, dimension):
 
 
 def find_geodesic_midpoint(start_point, end_point, number_of_inner_points, dimension, mass_matrix, molecule, energy,
-                           node_number):
+                           node_number, length_function):
     """ This function computes the local geodesic curve joining start_point to end_point using the L-BFGS method.
 
     Args:
@@ -164,7 +164,7 @@ def find_geodesic_midpoint(start_point, end_point, number_of_inner_points, dimen
 
     Q = get_rotation(start_point, end_point, dimension)
 
-    geodesic, f_min, detail = fmin_l_bfgs_b(func=length,
+    geodesic, f_min, detail = fmin_l_bfgs_b(func=length_function,
                                             x0=np.zeros(number_of_inner_points*(dimension-1)),
                                             args=(start_point,
                                                   end_point,
@@ -189,7 +189,7 @@ def find_geodesic_midpoint(start_point, end_point, number_of_inner_points, dimen
     return [node_number, midpoint]
 
 
-def compute_trajectory(trajectory, local_num_nodes, energy, tol, filename, configuration):
+def compute_trajectory(trajectory, local_num_nodes, energy, tol, filename, configuration, length_function=length):
     """ This function creates a new task to compute a geodesic midpoint and submits it to the worker pool.
 
     Args:
@@ -250,7 +250,8 @@ def compute_trajectory(trajectory, local_num_nodes, energy, tol, filename, confi
                                                                                  mass_matrix,
                                                                                  molecule,
                                                                                  energy,
-                                                                                 node_number)[1])
+                                                                                 node_number,
+                                                                                 length_function)[1])
 
             # Once all the nodes in the curve have been tested, print the node movement
             logging.info('Curve Movement: ' + str(trajectory.movement))
@@ -286,7 +287,7 @@ def compute_trajectory(trajectory, local_num_nodes, energy, tol, filename, confi
             for node_number in trajectory:
                 pool.apply_async(func=find_geodesic_midpoint,
                          args=(trajectory.points[node_number - 1], trajectory.points[node_number + 1], local_num_nodes,
-                               dimension, mass_matrix, molecule, energy, node_number,),
+                               dimension, mass_matrix, molecule, energy, node_number, length_function,),
                          callback=update_curve)
 
             # If all the nodes in the trajectory have been moved...
