@@ -4,7 +4,6 @@ setup(
     name='geometricmd',
     version='1.0',
     packages=['geometricmd'],
-    requires='numpy, scipy, python-ase',
     url='https://suttond.github.io/GeometricMD',
     license='LGPL 3.0',
     author='Daniel C. Sutton',
