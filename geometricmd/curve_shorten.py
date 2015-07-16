@@ -354,7 +354,10 @@ def compute_trajectory(trajectory, local_num_nodes, energy, tol, filename, confi
       filename (str) :
           The filename for the output files from the simulation.
       configuration (dict) :
-          A dictionary containing additional parameters for the simulation. Accepts: 'processes' - the number of processors to use (defaults to 1), 'write_to_log' - a boolean value, if true writes to a logfile, otherwise prints to console (defaults to False) and 'save_every' - an integer indicating the program will save after every 'save_every'th iteration of the Birkhoff algorithm (defaults to 1).
+          A dictionary containing additional parameters for the simulation. Accepts: 'processes' - the number of
+          processors to use (defaults to 1), 'write_to_log' - a boolean value, if true writes to a logfile, otherwise
+          prints to console (defaults to False) and 'save_every' - an integer indicating the program will save after
+          every 'save_every'th iteration of the Birkhoff algorithm (defaults to 1).
       length_function (func) :
           A Python function that approximates the length of a curve.
 
