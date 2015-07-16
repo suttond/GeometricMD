@@ -34,42 +34,83 @@ def find_geodesic_midpoint(start_point, end_point, start_cell, end_cell, number_
     """ This function computes the local geodesic curve joining start_point to end_point using the L-BFGS method.
 
     Args:
-      start_point (numpy.array): The first end point of the curve.
-      end_point (numpy.array): The last end point of the curve.
-      number_of_inner_points (int): The number of nodes along the curve, less the end points.
-      dimension (int): The dimension of the problem. Computed from the atomistic simulation environment.
-      mass_matrix (numpy.array): A diagonal NumPy array containing the masses of the molecular system as computed in the SimulationClient object.
-      molecule (ase.atoms): The ASE atoms object corresponding to the molecule being simulated.
-      energy (float): The total energy of the system.
-      node_number (int): The node number for which we are calculating a new position for.
+      start_point (numpy.array) :
+          The first end point of the curve.
+      end_point (numpy.array) :
+          The last end point of the curve.
+      start_cell (numpy.array) :
+          The first cell of the curve.
+      end_cell (numpy.array) :
+          The last cell of the curve.
+      number_of_inner_points (int) :
+          The number of nodes along the curve, less the end points.
+      dimension (int) :
+          The dimension of the problem. Computed from the atomistic simulation environment.
+      mass_matrix (numpy.array) :
+          A diagonal NumPy array containing the masses of the molecular system as computed in the SimulationClient
+          object.
+      molecule (ase.atoms) :
+          The ASE atoms object corresponding to the molecule being simulated.
+      energy (float) :
+          The total energy of the system.
+      node_number (int) :
+          The node number for which we are calculating a new position for.
+      length_function (func) :
+          A Python function that estimates the length of a curve and also returns it's gradient.
+      W (float) :
+          A parameter for NPT simulations, used to define how mobile the unit cell is.
+      pressure (float) :
+          The constant pressure for the simulation.
 
     Returns:
-      numpy.array: The midpoint along the approximate local geodesic curve.
+      int :
+          The node number for which the returned midpoint corresponds to.
+      numpy.array :
+          The midpoint along the approximate local geodesic curve.
+      numpy.array :
+          The midpoint cell along the approximate local geodesic curve.
 
     """
 
+    # Define a function that returns sqrt(2(E-V)) and it's gradient based on a given configuration
     def metric(point):
 
+        # Update molecular configuration based on given configuration
         molecule.set_positions(convert_vector_to_atoms(point[:-9]))
+
+        # Compute -grad(V)
         minus_grad_V = molecule.get_forces().flatten()
 
+        # Extract cell information from the point
         cell = np.reshape(convert_vector_to_atoms(point[-9:]), (3, 3))
+
+        # Compute the cell volume scaled by pressure
         cell_volume = pressure * abs(np.linalg.det(cell))
+
+        # Compute gradient of the volume
         grad_cell_volume = -cell_volume * np.linalg.inv(cell).transpose().flatten()
+
+        # Update the molecule's cell
         molecule.set_cell(cell)
 
+        # Evaluate the value of sqrt(2(E-V)), replacing E-V with 1E-9 if V > E.
         cf = math.sqrt(max([2*(energy - molecule.get_potential_energy() - cell_volume), 1E-9]))
 
         return [cf, np.hstack((minus_grad_V, grad_cell_volume))/cf]
 
+    # Determine a start and end configuration, incorporating the cell
     start = np.hstack((start_point, start_cell.flatten()))
     end = np.hstack((end_point, end_cell.flatten()))
 
+    # Obtain the transformation from dimension dimensional space to the tangent space of the line
+    # joining start_point to end_point.
     Q = get_rotation(start, end, dimension + 9)
 
+    # Compute a new mass matrix, accommodating the additional cell information
     mass_matrix = np.vstack((np.hstack((mass_matrix, np.zeros((dimension, 9)))),
                                  np.hstack((np.zeros((9, dimension)), np.diag(np.asarray([W] * 9))))))
 
+    # Perform L-BFGS optimisation on length_function, returning a new geodesic midpoint
     geodesic, f_min, detail = fmin_l_bfgs_b(func=length_function,
                                             x0=np.zeros(number_of_inner_points*(dimension+8)),
                                             args=(start,
@@ -80,16 +121,22 @@ def find_geodesic_midpoint(start_point, end_point, start_cell, end_cell, number_
                                                   dimension+8,
                                                   metric))
 
+    # If something went wrong with the L-BFGS algorithm print an error message for the end user
     if detail['warnflag'] != 0:
         print 'BFGS Warning:' + detail['task']
 
+    # Convert the obtained geodesic from it's shift description to the full point description
     points = np.reshape(generate_points(geodesic, start, end, Q, number_of_inner_points+2, dimension+8),
                         (number_of_inner_points+2, dimension+9))
 
+    # Compute the midpoint and corresponding cell
     if number_of_inner_points % 2 == 1:
+        # If there is an odd number of inner points then return the middle element of the array
         midpoint = points[(number_of_inner_points + 1) / 2][:-9]
         midpoint_cell = np.reshape(points[(number_of_inner_points + 1) / 2][-9:], (3, 3))
     else:
+        # If there is an even number of inner points return the midpoint of the two middle points - this prevents
+        # artificial movement of the curve due to the algorithm.
         midpoint = 0.5 * (points[number_of_inner_points / 2] + points[(number_of_inner_points / 2) + 1])[:-9]
         midpoint_cell = np.reshape(0.5 * (points[number_of_inner_points / 2] +
                                           points[(number_of_inner_points / 2) + 1])[-9:], (3, 3))
@@ -100,15 +147,29 @@ def find_geodesic_midpoint(start_point, end_point, start_cell, end_cell, number_
 
 def compute_trajectory(trajectory, local_num_nodes, energy, tol, filename, configuration, length_function=length,
                        W=1.0, pressure=1.0):
-    """ This function creates a new task to compute a geodesic midpoint and submits it to the worker pool.
+    """ This function updates the trajectory object positions to represent the shortest curve.
 
     Args:
-      trajectory (curve): A GeometricMD curve object describing the initial trajectory between start and end configurations.
-      local_num_nodes (int): The number of points to use when computing the local geodesics.
-      energy (float): The total energy of the system.
-      tol (float): The tolerance by which if the total curve movement falls below this number then the Birkhoff method stops.
-      filename (str): The filename for the output files from the simulation.
-      configuration (dict): A dictionary containing additional parameters for the simulation. Accepts: 'processes' - the number of processors to use (defaults to 1), 'write_to_log' - a boolean value, if true writes to a logfile, otherwise prints to console (defaults to False) and 'save_every' - an integer indicating the program will save after every 'save_every'th iteration of the Birkhoff algorithm (defaults to 1).
+      trajectory (curve) :
+          A GeometricMD curve object describing the initial trajectory between start and end configurations.
+      local_num_nodes (int) :
+          The number of points to use when computing the local geodesics.
+      energy (float) :
+          The total energy of the system.
+      tol (float) :
+          The tolerance by which if the total curve movement falls below this number then the Birkhoff method stops.
+      filename (str) :
+          The filename for the output files from the simulation.
+      configuration (dict) :
+          A dictionary containing additional parameters for the simulation. Accepts: 'processes' - the number of
+          processors to use (defaults to 1), 'write_to_log' - a boolean value, if true writes to a logfile, otherwise prints to console (defaults to False) and 'save_every' - an integer indicating the program will save after every 'save_every'th iteration of the Birkhoff algorithm (defaults to 1).
+      length_function (optional, func) :
+          A Python function that approximates the length of a curve.
+      W (optional, float) :
+          A parameter for NPT simulations, used to define how mobile the unit cell is.
+      pressure (optional, float) :
+          The constant pressure for the simulation.
+
     """
 
     # Extract a copy of the ASE atoms object to determine forces
