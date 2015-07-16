@@ -67,3 +67,6 @@ example/Butane.pkl
 # Packages that may be inluded locally
 pysic/
 ase/
+
+# Ignore working code directory
+scratch/*
