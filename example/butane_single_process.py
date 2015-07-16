@@ -1,5 +1,5 @@
-from geometricmd.curve_shorten_pbc import compute_trajectory
-from geometricmd.geometry_pbc import Curve
+from geometricmd.curve_shorten import compute_trajectory
+from geometricmd.geometry import Curve
 from ase.io import read
 from ase.calculators.emt import EMT
 
