@@ -81,9 +81,6 @@ class Curve:
     def __init__(self, start_point, end_point, number_of_nodes, energy):
         """The constructor for the Curve class.
 
-        Note:
-          This class is intended to be used by the SimulationServer module.
-
         Args:
           start_point (ase.atoms) :
               An ASE atoms object describing the initial state. A calculator needs to be set on this object.
