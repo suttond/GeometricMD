@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.2a',
+        VERSION:     '1.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -50,7 +50,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           GeometricMD</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.3</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -134,10 +134,12 @@
 <span class="sd">    shortening algorithm.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      atoms (ase.atoms): The ASE atoms object whose position is to be converted to a vector.</span>
+<span class="sd">      atoms (ase.atoms) :</span>
+<span class="sd">          The ASE atoms object whose position is to be converted to a vector.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">      numpy.array: A vector of atomistic positions.</span>
+<span class="sd">      numpy.array :</span>
+<span class="sd">          A vector of atomistic positions.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -156,11 +158,14 @@
     <span class="sd">&quot;&quot;&quot; The inverse of convert_atoms_to_vector.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">      vector (numpy.array): The vector containing the position of the atoms to be converted.</span>
-<span class="sd">      dimension (optional int): The dimension of the space in which the simulation is taking place. The default value is 3.</span>
+<span class="sd">      vector (numpy.array) :</span>
+<span class="sd">          The vector containing the position of the atoms to be converted.</span>
+<span class="sd">      dimension (optional int) :</span>
+<span class="sd">          The dimension of the space in which the simulation is taking place. The default value is 3.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">      numpy.array: An ASE atoms object friendly NumPy array containing the atomistic positions.</span>
+<span class="sd">      numpy.array :</span>
+<span class="sd">          An ASE atoms object friendly NumPy array containing the atomistic positions.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float64&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span><span class="o">/</span><span class="n">dimension</span><span class="p">,</span> <span class="n">dimension</span><span class="p">))</span>
@@ -169,34 +174,49 @@
 <div class="viewcode-block" id="Curve"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.Curve">[docs]</a><span class="k">class</span> <span class="nc">Curve</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">    The purpose of this object is to provide a Curve object that has similar behaviour to that described in [Sutton2013]_.</span>
+<span class="sd">    The purpose of this object is to provide a Curve object with a custom iterator allowing for the Birkhoff algorithm</span>
+<span class="sd">    to be applied.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">      start_point (numpy.array): A NumPy array describing the first point in the curve.</span>
-<span class="sd">      end_point (numpy.array): A NumPy array describing the last point in the curve.</span>
-<span class="sd">      number_of_nodes (int): The total number of nodes that the curve is to consist of, including the start and end points.</span>
-<span class="sd">      energy (float): The total Hamiltonian energy to be used in the simulation.</span>
-<span class="sd">      tangent (numpy.array): The tangent of the straight line segment joining the start_point to the end_point, rescaled according to [Sutton2013]_.</span>
-<span class="sd">      points (numpy.array): An NumPy array containing all the points of the curve.</span>
-<span class="sd">      default_initial_state (numpy.array): A NumPy array consisting of flags that indicate which nodes are movable initially.</span>
-<span class="sd">      movement (float): A variable which records the total movement of the curve as calculated in [Sutton2013]_.</span>
-<span class="sd">      nodes_moved (numpy.array): A binary NumPy array indicating whether a node has been moved. Used to determine when all the nodes in the curve have been moved.</span>
-<span class="sd">      node_movable (numpy.array): A binary NumPy array indicating whether a node is movable.</span>
-<span class="sd">      number_of_distinct_nodes_moved (int): A counter recording the total number of nodes that have moved.</span>
-<span class="sd">      configuration (dict): A dictionary containing the information from the configuration file.</span>
+<span class="sd">      start_point (numpy.array) :</span>
+<span class="sd">          A NumPy array describing the first point in the curve.</span>
+<span class="sd">      end_point (numpy.array) :</span>
+<span class="sd">          A NumPy array describing the last point in the curve.</span>
+<span class="sd">      number_of_nodes (int) :</span>
+<span class="sd">          The total number of nodes that the curve is to consist of, including the start and end points.</span>
+<span class="sd">      energy (float) :</span>
+<span class="sd">          The total Hamiltonian energy to be used in the simulation.</span>
+<span class="sd">      tangent (numpy.array) :</span>
+<span class="sd">          The tangent of the straight line segment joining the start_point to the end_point.</span>
+<span class="sd">      points (numpy.array) :</span>
+<span class="sd">          An NumPy array containing all the points of the curve.</span>
+<span class="sd">      default_initial_state (numpy.array) :</span>
+<span class="sd">          A NumPy array consisting of flags that indicate which nodes are movable initially.</span>
+<span class="sd">      movement (float) :</span>
+<span class="sd">          A variable which records the average movement of nodes in the curve.</span>
+<span class="sd">      nodes_moved (numpy.array) :</span>
+<span class="sd">          A binary NumPy array indicating whether a node has been moved. Used to determine when all the nodes in the</span>
+<span class="sd">          curve have been moved.</span>
+<span class="sd">      node_movable (numpy.array) :</span>
+<span class="sd">          A binary NumPy array indicating whether a node is movable.</span>
+<span class="sd">      number_of_distinct_nodes_moved (int) :</span>
+<span class="sd">          A counter recording the total number of nodes that have moved.</span>
+<span class="sd">      configuration (dict) :</span>
+<span class="sd">          A dictionary containing the information from the configuration file.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Curve.__init__"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.Curve.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_point</span><span class="p">,</span> <span class="n">end_point</span><span class="p">,</span> <span class="n">number_of_nodes</span><span class="p">,</span> <span class="n">energy</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;The constructor for the Curve class.</span>
 
-<span class="sd">        Note:</span>
-<span class="sd">          This class is intended to be used by the SimulationServer module.</span>
-
 <span class="sd">        Args:</span>
-<span class="sd">          start_point (ase.atoms): An ASE atoms object describing the initial state. A calculator needs to be set on this object.</span>
-<span class="sd">          end_point (ase.atoms): An ASE atoms object describing the final state.</span>
-<span class="sd">          number_of_nodes (int): The number of nodes that the curve is to consist of, including the start and end points.</span>
-<span class="sd">          energy (float): The total Hamiltonian energy to be used in the simulation.</span>
+<span class="sd">          start_point (ase.atoms) :</span>
+<span class="sd">              An ASE atoms object describing the initial state. A calculator needs to be set on this object.</span>
+<span class="sd">          end_point (ase.atoms) :</span>
+<span class="sd">              An ASE atoms object describing the final state.</span>
+<span class="sd">          number_of_nodes (int) :</span>
+<span class="sd">              The number of nodes that the curve is to consist of, including the start and end points.</span>
+<span class="sd">          energy (float) :</span>
+<span class="sd">              The total Hamiltonian energy to be used in the simulation.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -236,7 +256,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">configuration</span><span class="p">[</span><span class="s">&#39;molecule&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_point</span>
 </div>
 <div class="viewcode-block" id="Curve.set_node_movable"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.Curve.set_node_movable">[docs]</a>    <span class="k">def</span> <span class="nf">set_node_movable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Resets all of the flags in the curve to indicate that the current iteration of the Birkhoff algorithm is over.</span>
+        <span class="sd">&quot;&quot;&quot; Resets all of the flags in the curve to indicate that the current iteration of the Birkhoff algorithm is</span>
+<span class="sd">        over.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -257,14 +278,16 @@
 <span class="sd">        neighbouring nodes for further computation.</span>
 
 <span class="sd">        Arguments:</span>
-<span class="sd">            node_number (int): The node number of the node whose position is to be updated.</span>
-<span class="sd">            new_position (numpy.array): The new position of the node.</span>
+<span class="sd">            node_number (int) :</span>
+<span class="sd">                The node number of the node whose position is to be updated.</span>
+<span class="sd">            new_position (numpy.array) :</span>
+<span class="sd">                The new position of the node.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c"># Arithmetic to measure the total movement of a curve</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">movement</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">))</span> <span class="o">*</span> \
-            <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">new_position</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">node_number</span><span class="p">]))</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">new_position</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">node_number</span><span class="p">]),</span> <span class="nb">ord</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
 
         <span class="c"># Update position of node with new position assumes new_position is float64 numpy array</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">points</span><span class="p">[</span><span class="n">node_number</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_position</span>
@@ -287,10 +310,11 @@
 </div>
 <div class="viewcode-block" id="Curve.next"><a class="viewcode-back" href="../../geometry.html#geometricmd.geometry.Curve.next">[docs]</a>    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Determine next movable node, given existing information about previously distributed nodes. Used to ensure</span>
-<span class="sd">            the curve object is Python iterable..</span>
+<span class="sd">            the curve object is Python iterable.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            int: The node number of the next movable node. If no such node exists then it returns None.</span>
+<span class="sd">            int :</span>
+<span class="sd">                The node number of the next movable node. If no such node exists then it returns None.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -330,7 +354,8 @@
         <span class="sd">&quot;&quot;&quot; Accessor method for the points attribute.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            numpy.array: An array containing all of the points of the curve.</span>
+<span class="sd">            numpy.array :</span>
+<span class="sd">                An array containing all of the points of the curve.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">points</span>
@@ -339,7 +364,8 @@
         <span class="sd">&quot;&quot;&quot; This method determines whether every node in the global curve has been tested for length reduction.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">          bool: True if all of the nodes have been tested, False otherwise.</span>
+<span class="sd">          bool :</span>
+<span class="sd">              True if all of the nodes have been tested, False otherwise.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_of_distinct_nodes_moved</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
@@ -369,7 +395,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Daniel Sutton.<br/>
-      Last updated on Jul 06, 2015.<br/>
+      Last updated on Jul 16, 2015.<br/>
     </p>
   </div>
 </footer>
