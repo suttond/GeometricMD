@@ -56,6 +56,7 @@ def find_geodesic_midpoint(start_point, end_point, start_cell, end_cell, number_
         cell = np.reshape(convert_vector_to_atoms(point[-9:]), (3, 3))
         cell_volume = pressure * abs(np.linalg.det(cell))
         grad_cell_volume = -cell_volume * np.linalg.inv(cell).transpose().flatten()
+        molecule.set_cell(cell)
 
         cf = math.sqrt(max([2*(energy - molecule.get_potential_energy() - cell_volume), 1E-9]))
 
